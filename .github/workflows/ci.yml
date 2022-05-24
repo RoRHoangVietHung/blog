@@ -21,6 +21,6 @@ jobs:
       - run: echo '${{ toJSON(github) }}'
       - name: Set output color
         id: color-generator
-        run: echo '::set-ouput name=SELECTED_COLOR::red'
+        run: echo '::set-output name=SELECTED_COLOR::red'
       - name: Print output color
         run: echo "The selected color is ${{ steps.color-generator.outputs.SELECTED_COLOR }}"
