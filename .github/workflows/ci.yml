@@ -25,13 +25,13 @@ jobs:
         run: bundle exec rspec
         
       - name: Create database test
-        run: mysql -h 127.0.0.1 --port 3306 -u root -proot -e 'CREATE DATABASE IF NOT EXISTS test;'
+        run: mysql -h 127.0.0.1 --port 3306 -u root -proot -e 'CREATE DATABASE IF NOT EXISTS test1;'
 
-#       - name: Test github branch
-#         run: echo '${{ github.ref }}'
-#       - run: echo '${{ toJSON(github) }}'
-#       - name: Set output color
-#         id: color-generator
-#         run: echo '::set-output name=SELECTED_COLOR::red'
-#       - name: Print output color
-#         run: echo "The selected color is ${{ steps.color-generator.outputs.SELECTED_COLOR }}"
+      - name: Test github branch
+        run: echo '${{ github.ref }}'
+      - run: echo '${{ toJSON(github) }}'
+      - name: Set output color
+        id: color-generator
+        run: echo '::set-output name=SELECTED_COLOR::red'
+      - name: Print output color
+        run: echo "The selected color is ${{ steps.color-generator.outputs.SELECTED_COLOR }}"
