@@ -8,6 +8,7 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test2
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -24,14 +25,14 @@ jobs:
       - name: Check rspec
         run: bundle exec rspec
         
-      - name: Create database test
-        run: mysql -h 127.0.0.1 --port 3306 -u root -proot -e 'CREATE DATABASE IF NOT EXISTS test1;'
+      - name: Create database test2
+        run: mysql -h 127.0.0.1 --port 3306 -u root -proot -e 'CREATE DATABASE IF NOT EXISTS test2;'
 
-      - name: Test github branch
-        run: echo '${{ github.ref }}'
-      - run: echo '${{ toJSON(github) }}'
-      - name: Set output color
-        id: color-generator
-        run: echo '::set-output name=SELECTED_COLOR::red'
-      - name: Print output color
-        run: echo "The selected color is ${{ steps.color-generator.outputs.SELECTED_COLOR }}"
+#       - name: Test github branch
+#         run: echo '${{ github.ref }}'
+#       - run: echo '${{ toJSON(github) }}'
+#       - name: Set output color
+#         id: color-generator
+#         run: echo '::set-output name=SELECTED_COLOR::red'
+#       - name: Print output color
+#         run: echo "The selected color is ${{ steps.color-generator.outputs.SELECTED_COLOR }}"
