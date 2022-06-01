@@ -3,6 +3,15 @@ on: [push]
 jobs:
   CI-blog:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: test
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3307:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,22 +25,14 @@ jobs:
       - name: Check rspec
         run: bundle exec rspec
 
-      - name: Test github branch
-        run: echo '${{ github.ref }}'
-      - run: echo '${{ toJSON(github) }}'
-      - name: Set output color
-        id: color-generator
-        run: echo '::set-output name=SELECTED_COLOR::red'
-      - name: Print output color
-        run: echo "The selected color is ${{ steps.color-generator.outputs.SELECTED_COLOR }}"
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: blog_development
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_USER: development
-          MYSQL_PASSWORD: root
-        ports:
-          - 3307:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=10s --health-retries=10
+      - name: Test create database
+        run: mysql -h 127.0.0.1 --port 3307 -u root -proot -e 'CREATE DATABASE IF NOT EXISTS test;'
+
+#       - name: Test github branch
+#         run: echo '${{ github.ref }}'
+#       - run: echo '${{ toJSON(github) }}'
+#       - name: Set output color
+#         id: color-generator
+#         run: echo '::set-output name=SELECTED_COLOR::red'
+#       - name: Print output color
+#         run: echo "The selected color is ${{ steps.color-generator.outputs.SELECTED_COLOR }}"
